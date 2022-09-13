@@ -6,8 +6,10 @@ function get(selector) {
 const form = get("#form");
 const fullname = get("#fullname");
 const teamname = get("#teamname");
+const department = get("#department");
 
 const teamId = get(".team-identification");
+const teamlogoImg = get(".team-logo img");
 
 const messageContainer = get(".message-container");
 const message = get("#message");
@@ -36,13 +38,15 @@ function storeFormData() {
     schoollevel: form.schlevel.value,
   };
 
-  formIsSubmitted();
-
+  formReset();
   createBarCode();
+  createIdNumber();
   barcodeGen(user);
   console.log(user.firstname);
   fullname.textContent = `${user.firstname} ${user.lastname}`;
   teamname.textContent = "White Eagle";
+  department.textContent = `${user.schoollevel.toUpperCase()}`;
+  teamlogoImg.setAttribute("src", "img/team" + 1 + ".jpg");
   console.log(user);
 }
 
@@ -59,6 +63,13 @@ function createBarCode() {
   const thatBarCode = document.createElementNS(ns, "svg");
   thatBarCode.setAttribute("id", "barcode");
   teamId.appendChild(thatBarCode);
+}
+
+function createIdNumber() {
+  const idNumber = document.createElement("p");
+  idNumber.setAttribute("id", "idnumber");
+  idNumber.textContent = "0875132659844";
+  teamId.appendChild(idNumber);
 }
 
 function barcodeGen(userData) {
@@ -79,7 +90,7 @@ function init() {
   formResult.hidden = true;
 }
 
-function formIsSubmitted() {
+function formReset() {
   form.reset();
   form.hidden = true;
   messageContainer.style.display = "none";
@@ -90,9 +101,15 @@ function printBarCode() {}
 
 function newBarCode() {
   const thatCodeBar = document.getElementById("barcode");
+  const idNumber = document.getElementById("idnumber");
+
   teamId.removeChild(thatCodeBar);
+  teamId.removeChild(idNumber);
+
   fullname.textContent = "Your Name";
   teamname.textContent = "Your Team";
+  department.textContent = "Department";
+  teamlogoImg.setAttribute("src", "img/team" + 0 + ".jpg");
   init();
 }
 // Event listeners

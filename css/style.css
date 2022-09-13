@@ -62,9 +62,14 @@ body {
   /* border: 2px solid #f89b29; */
 }
 
+#idnumber {
+  margin-bottom: 25px;
+}
+
 .container {
   width: 480px;
-  height: 630px;
+  /* height: 630px; */
+  height: 670px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -75,6 +80,7 @@ body {
 
 form {
   width: 90%;
+  margin-top: 20px;
 }
 .form-group {
   height: 45px;
@@ -141,4 +147,11 @@ button:focus {
 
 .form-result {
   width: 90%;
+}
+.footer {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  color: #000;
+  font-size: 0.7rem;
 }
