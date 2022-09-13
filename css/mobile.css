@@ -1,8 +1,5 @@
 .logo {
-  display: flex;
-  justify-content: space-around;
   flex-direction: column;
-  align-items: center;
   margin-left: 0;
 }
 .logo-img {
@@ -29,6 +26,10 @@
 
   #appname {
     font-size: 0.7rem;
+  }
+
+  .footer {
+    font-size: 0.6rem;
   }
 }
 

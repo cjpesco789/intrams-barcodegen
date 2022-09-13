@@ -38,7 +38,6 @@ function storeFormData() {
     schoollevel: form.schlevel.value,
   };
 
-  formReset();
   createBarCode();
   createIdNumber();
   barcodeGen(user);
@@ -48,6 +47,7 @@ function storeFormData() {
   department.textContent = `${user.schoollevel.toUpperCase()}`;
   teamlogoImg.setAttribute("src", "img/team" + 1 + ".jpg");
   console.log(user);
+  formReset();
 }
 
 function processFormData(e) {
@@ -75,9 +75,9 @@ function createIdNumber() {
 function barcodeGen(userData) {
   const { firstname, lastname, schoollevel } = userData;
   var barcodedata = `${firstname} ${lastname} ${schoollevel}`;
-  //   var data = document.querySelector(".input").value;
-  const thatCodeBar = document.getElementById("barcode");
-  JsBarcode(thatCodeBar, barcodedata, {
+
+  const barcode = document.getElementById("barcode");
+  JsBarcode(barcode, barcodedata, {
     background: "#fff",
     color: "#000",
     height: 100,
@@ -115,5 +115,6 @@ function newBarCode() {
 // Event listeners
 window.addEventListener("DOMContentLoaded", init);
 form.addEventListener("submit", processFormData);
+
 printBarCodeBtn.addEventListener("click", printBarCode);
 newCodeBtn.addEventListener("click", newBarCode);
