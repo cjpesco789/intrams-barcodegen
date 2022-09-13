@@ -138,3 +138,7 @@ button:focus {
 
   color: black;
 }
+
+.form-result {
+  width: 90%;
+}
