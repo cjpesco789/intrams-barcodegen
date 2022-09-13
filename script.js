@@ -97,7 +97,9 @@ function formReset() {
   formResult.hidden = false;
 }
 
-function printBarCode() {}
+function printBarCode() {
+  print();
+}
 
 function newBarCode() {
   const thatCodeBar = document.getElementById("barcode");
@@ -116,5 +118,5 @@ function newBarCode() {
 window.addEventListener("DOMContentLoaded", init);
 form.addEventListener("submit", processFormData);
 
-printBarCodeBtn.addEventListener("click", printBarCode);
 newCodeBtn.addEventListener("click", newBarCode);
+printBarCodeBtn.addEventListener("click", printBarCode);
