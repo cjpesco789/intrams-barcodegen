@@ -20,7 +20,7 @@ const printBarCodeBtn = get(".print-barcode-btn");
 const newCodeBtn = get(".new-code-btn");
 
 let isValid = false;
-
+let studentFound = false;
 function validateForm() {
   isValid = form.checkValidity();
   if (!isValid) {
@@ -28,6 +28,15 @@ function validateForm() {
     message.style.color = "red";
     messageContainer.style.borderColor = "red";
     return;
+  }
+
+  if (form.firstname.value === "Clark Joy" && form.lastname.value === "Sala") {
+    message.textContent = "Student not found.";
+    message.style.color = "red";
+    messageContainer.style.borderColor = "red";
+    return;
+  } else {
+    studentFound = true;
   }
 }
 
@@ -53,7 +62,7 @@ function storeFormData() {
 function processFormData(e) {
   e.preventDefault();
   validateForm();
-  if (isValid) {
+  if (isValid && studentFound) {
     storeFormData();
   }
 }
@@ -95,6 +104,8 @@ function formReset() {
   form.hidden = true;
   messageContainer.style.display = "none";
   formResult.hidden = false;
+  isValid = false;
+  studentFound = false;
 }
 
 function printBarCode() {
@@ -112,6 +123,9 @@ function newBarCode() {
   teamname.textContent = "Your Team";
   department.textContent = "Department";
   teamlogoImg.setAttribute("src", "img/team" + 0 + ".jpg");
+  message.textContent = "Don't Hesitate!";
+  message.style.color = "#000";
+  messageContainer.style.borderColor = "#000";
   init();
 }
 // Event listeners
