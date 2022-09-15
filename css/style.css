@@ -61,6 +61,12 @@ body {
   margin: 0.2rem auto;
   /* border: 2px solid #f89b29; */
 }
+#barcode2 {
+  width: 90%;
+  /* height: 30px; */
+  margin: 0.2rem auto;
+  /* border: 2px solid #f89b29; */
+}
 
 #idnumber {
   margin-bottom: 25px;

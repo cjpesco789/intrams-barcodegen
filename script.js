@@ -47,9 +47,10 @@ function storeFormData() {
     schoollevel: form.schlevel.value,
   };
 
-  createBarCode();
+  // createBarCode();
+  createBarCode2(user);
   createIdNumber();
-  barcodeGen(user);
+  // barcodeGen(user);
   console.log(user.firstname);
   fullname.textContent = `${user.firstname} ${user.lastname}`;
   teamname.textContent = "White Eagle";
@@ -109,7 +110,76 @@ function formReset() {
 }
 
 function printBarCode() {
-  print();
+  //newCodeBtn.hidden = true;
+  // print();
+  takeScreenShot2();
+  // newCodeBtn.hidden = false;
+}
+
+function takeScreenShot2() {
+  html2canvas(document.querySelector(".container"), {
+    allowTaint: true,
+    onrendered: function (canvas) {
+      // document.body.appendChild(canvas);
+      return Canvas2Image.saveAsPNG(canvas);
+    },
+  });
+}
+
+function takeScreenShot() {
+  const svg = document.getElementById("barcode");
+  const { x, y, width, height } = svg.viewBox.baseVal;
+  const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
+  const imageSVG = document.createElement("img");
+  imageSVG.src = url;
+  imageSVG.addEventListener("load", () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    context.drawImage(imageSVG, x, y, width, height);
+  });
+
+  teamId.appendChild(imageSVG);
+
+  // html2canvas(document.querySelector(".container"), {
+  //   onrendered: function (canvas) {
+  //     // document.body.appendChild(canvas);
+  //     return Canvas2Image.saveAsPNG(canvas);
+  //   },
+  // });
+}
+
+function createBarCode2(userData) {
+  const ns = "http://www.w3.org/2000/svg";
+  const thatBarCode = document.createElementNS(ns, "svg");
+  thatBarCode.setAttribute("id", "barcode");
+
+  const { firstname, lastname, schoollevel } = userData;
+  var barcodedata = `${firstname} ${lastname} ${schoollevel}`;
+  JsBarcode(thatBarCode, barcodedata, {
+    background: "#fff",
+    color: "#000",
+    height: 100,
+    displayValue: false,
+  });
+
+  const { x, y, width, height } = thatBarCode.viewBox.baseVal;
+  const blob = new Blob([thatBarCode.outerHTML], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
+  const imageSVG = document.createElement("img");
+  imageSVG.setAttribute("id", "barcode2");
+  imageSVG.src = url;
+  imageSVG.addEventListener("load", () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    context.drawImage(imageSVG, x, y, width, height);
+  });
+
+  teamId.appendChild(imageSVG);
 }
 
 function newBarCode() {
