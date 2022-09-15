@@ -47,10 +47,8 @@ function storeFormData() {
     schoollevel: form.schlevel.value,
   };
 
-  // createBarCode();
-  createBarCode2(user);
+  createBarCode(user);
   createIdNumber();
-  // barcodeGen(user);
   console.log(user.firstname);
   fullname.textContent = `${user.firstname} ${user.lastname}`;
   teamname.textContent = "White Eagle";
@@ -68,13 +66,6 @@ function processFormData(e) {
   }
 }
 
-function createBarCode() {
-  const ns = "http://www.w3.org/2000/svg";
-  const thatBarCode = document.createElementNS(ns, "svg");
-  thatBarCode.setAttribute("id", "barcode");
-  teamId.appendChild(thatBarCode);
-}
-
 function createIdNumber() {
   const idNumber = document.createElement("p");
   idNumber.setAttribute("id", "idnumber");
@@ -82,18 +73,6 @@ function createIdNumber() {
   teamId.appendChild(idNumber);
 }
 
-function barcodeGen(userData) {
-  const { firstname, lastname, schoollevel } = userData;
-  var barcodedata = `${firstname} ${lastname} ${schoollevel}`;
-
-  const barcode = document.getElementById("barcode");
-  JsBarcode(barcode, barcodedata, {
-    background: "#fff",
-    color: "#000",
-    height: 100,
-    displayValue: false,
-  });
-}
 function init() {
   form.hidden = false;
   messageContainer.style.display = "flex";
@@ -110,55 +89,23 @@ function formReset() {
 }
 
 function printBarCode() {
-  //newCodeBtn.hidden = true;
-  // print();
-  takeScreenShot2();
-  // newCodeBtn.hidden = false;
-}
-
-function takeScreenShot2() {
   html2canvas(document.querySelector(".container"), {
     allowTaint: true,
     onrendered: function (canvas) {
-      // document.body.appendChild(canvas);
       return Canvas2Image.saveAsPNG(canvas);
     },
   });
 }
 
-function takeScreenShot() {
-  const svg = document.getElementById("barcode");
-  const { x, y, width, height } = svg.viewBox.baseVal;
-  const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
-  const url = URL.createObjectURL(blob);
-  const imageSVG = document.createElement("img");
-  imageSVG.src = url;
-  imageSVG.addEventListener("load", () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const context = canvas.getContext("2d");
-    context.drawImage(imageSVG, x, y, width, height);
-  });
-
-  teamId.appendChild(imageSVG);
-
-  // html2canvas(document.querySelector(".container"), {
-  //   onrendered: function (canvas) {
-  //     // document.body.appendChild(canvas);
-  //     return Canvas2Image.saveAsPNG(canvas);
-  //   },
-  // });
-}
-
-function createBarCode2(userData) {
+function createBarCode(userData) {
   const ns = "http://www.w3.org/2000/svg";
   const thatBarCode = document.createElementNS(ns, "svg");
-  thatBarCode.setAttribute("id", "barcode");
 
   const { firstname, lastname, schoollevel } = userData;
   var barcodedata = `${firstname} ${lastname} ${schoollevel}`;
   JsBarcode(thatBarCode, barcodedata, {
+    format: "CODE128",
+    width: 2,
     background: "#fff",
     color: "#000",
     height: 100,
@@ -169,7 +116,7 @@ function createBarCode2(userData) {
   const blob = new Blob([thatBarCode.outerHTML], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);
   const imageSVG = document.createElement("img");
-  imageSVG.setAttribute("id", "barcode2");
+  imageSVG.setAttribute("id", "barcode");
   imageSVG.src = url;
   imageSVG.addEventListener("load", () => {
     const canvas = document.createElement("canvas");
