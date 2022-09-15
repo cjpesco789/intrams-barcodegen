@@ -47,14 +47,15 @@ function storeFormData() {
     schoollevel: form.schlevel.value,
   };
 
-  createBarCode(user);
-  createIdNumber();
-  console.log(user.firstname);
+  const idNumber = "565777879112";
+  createBarCode(idNumber);
+  createIdNumber(idNumber);
+
   fullname.textContent = `${user.firstname} ${user.lastname}`;
   teamname.textContent = "White Eagle";
   department.textContent = `${user.schoollevel.toUpperCase()}`;
   teamlogoImg.setAttribute("src", "img/team" + 1 + ".jpg");
-  console.log(user);
+
   formReset();
 }
 
@@ -66,11 +67,11 @@ function processFormData(e) {
   }
 }
 
-function createIdNumber() {
-  const idNumber = document.createElement("p");
-  idNumber.setAttribute("id", "idnumber");
-  idNumber.textContent = "0875132659844";
-  teamId.appendChild(idNumber);
+function createIdNumber(idNumber) {
+  const idNumberText = document.createElement("p");
+  idNumberText.setAttribute("id", "idnumber");
+  idNumberText.textContent = idNumber;
+  teamId.appendChild(idNumberText);
 }
 
 function init() {
@@ -89,21 +90,16 @@ function formReset() {
 }
 
 function printBarCode() {
-  html2canvas(document.querySelector(".container"), {
-    allowTaint: true,
-    onrendered: function (canvas) {
-      return Canvas2Image.saveAsPNG(canvas);
-    },
-  });
+  newCodeBtn.hidden = true;
+  print();
+  newCodeBtn.hidden = false;
 }
 
-function createBarCode(userData) {
-  const ns = "http://www.w3.org/2000/svg";
-  const thatBarCode = document.createElementNS(ns, "svg");
+function createBarCode(idNumber) {
+  const thatBarCode = document.createElement("img");
+  thatBarCode.setAttribute("id", "barcode");
 
-  const { firstname, lastname, schoollevel } = userData;
-  var barcodedata = `${firstname} ${lastname} ${schoollevel}`;
-  JsBarcode(thatBarCode, barcodedata, {
+  JsBarcode(thatBarCode, idNumber, {
     format: "CODE128",
     width: 2,
     background: "#fff",
@@ -112,21 +108,7 @@ function createBarCode(userData) {
     displayValue: false,
   });
 
-  const { x, y, width, height } = thatBarCode.viewBox.baseVal;
-  const blob = new Blob([thatBarCode.outerHTML], { type: "image/svg+xml" });
-  const url = URL.createObjectURL(blob);
-  const imageSVG = document.createElement("img");
-  imageSVG.setAttribute("id", "barcode");
-  imageSVG.src = url;
-  imageSVG.addEventListener("load", () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const context = canvas.getContext("2d");
-    context.drawImage(imageSVG, x, y, width, height);
-  });
-
-  teamId.appendChild(imageSVG);
+  teamId.appendChild(thatBarCode);
 }
 
 function newBarCode() {
